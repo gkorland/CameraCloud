@@ -1,44 +1,49 @@
 <html lang="en">
 <head>
 <script>
-    var ws = new WebSocket('ws://' + location.host);
-    // event emmited when connected
-    ws.onopen = function () {
-        console.log('websocket is connected ...')
-        // sending a send event to websocket server
-        ws.send('connected')
-    }
-    // event emmited when receiving message 
-    ws.onmessage = function (ev) {
-        console.log(ev);
-        var images = document.querySelector('#images');
+	var ws = new WebSocket('ws://' + location.host);
+	// event emmited when connected
+	ws.onopen = function() {
+		console.log('websocket is connected ...')
+		// sending a send event to websocket server
+		ws.send('connected')
+	}
+	// event emmited when receiving message 
+	ws.onmessage = function(ev) {
+		console.log(ev);
+		var images = document.querySelector('#images');
 
-        var newLine = document.createElement('br');
-        images.insertBefore(newLine, images.firstChild);
+		var newLine = document.createElement('br');
+		images.insertBefore(newLine, images.firstChild);
 
-        
-        var newImage = document.createElement('img');
-        newImage.classList.add('image');
-        newImage.src = ev.data;
-        images.insertBefore(newImage, newLine);
-    }
+		var newImage = document.createElement('img');
+		newImage.classList.add('image');
+		newImage.src = ev.data;
+		images.insertBefore(newImage, newLine);
+	}
 </script>
 <style>
-	.logo {
-		max-height:50px;
-	}	
-	.image {
-		margin: 5px;
-	}
+.logoEdgeX {
+	max-height: 50px;
+}
+.logoRedis {
+	max-height: 70px;
+}
+.image {
+	margin: 5px;
+}
 </style>
 </head>
 <body>
-<header  style="text-align:center;">
-	<img class="logo" src="Redis.png">
-	<img class="logo" src="Redis-Labs.png">
-	<img class="logo" src="EdgeX.png">
-</header>
-<div id="images" style="text-align:center;">
-</div>
+	<header style="text-align: center;">
+		<div>
+			<img class="logoEdgeX" src="EdgeX.png">
+		</div>
+		<div>
+			<img class="logoRedis" src="Redis.png"> 
+			<img class="logoRedis" src="Redis-Labs.png">
+		</div>
+	</header>
+	<div id="images" style="text-align: center;"></div>
 </body>
 </html>
