@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
 <script>
-    var ws = new WebSocket('ws://localhost:40510');
+    var ws = new WebSocket('ws://' + location.host);
     // event emmited when connected
     ws.onopen = function () {
         console.log('websocket is connected ...')
