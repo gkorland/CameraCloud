@@ -10,16 +10,21 @@
 	}
 	// event emmited when receiving message 
 	ws.onmessage = function(ev) {
-		console.log(ev);
 		var images = document.querySelector('#images');
 
-		var newLine = document.createElement('br');
-		images.insertBefore(newLine, images.firstChild);
-
-		var newImage = document.createElement('img');
+		var div = document.createElement('div'),
+			newImage = document.createElement('img');
+		
+		div.appendChild(newImage);
 		newImage.classList.add('image');
 		newImage.src = ev.data;
-		images.insertBefore(newImage, newLine);
+		
+		images.insertBefore(div, images.firstChild);
+		
+		if(images.children.length > 10 ) {
+			images.removeChild(images.lastChild);
+		}
+
 	}
 </script>
 <style>
