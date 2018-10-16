@@ -12,12 +12,16 @@
 	ws.onmessage = function(ev) {
 		var images = document.querySelector('#images');
 
-		var div = document.createElement('div'),
-			newImage = document.createElement('img');
+		var div = document.createElement('div');
+
 		
-		div.appendChild(newImage);
+		div.appendChild(document.createTextNode(Date().toString()));
+		div.appendChild(document.createElement('br'));
+		
+		var newImage = document.createElement('img');		
 		newImage.classList.add('image');
 		newImage.src = ev.data;
+		div.appendChild(newImage);
 		
 		images.insertBefore(div, images.firstChild);
 		
