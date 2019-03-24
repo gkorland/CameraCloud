@@ -10,25 +10,9 @@
 	}
 	// event emmited when receiving message 
 	ws.onmessage = function(ev) {
-		var images = document.querySelector('#images');
-
-		var div = document.createElement('div');
-
-		
-		div.appendChild(document.createTextNode(Date().toString()));
-		div.appendChild(document.createElement('br'));
-		
-		var newImage = document.createElement('img');		
-		newImage.classList.add('image');
-		newImage.src = ev.data;
-		div.appendChild(newImage);
-		
-		images.insertBefore(div, images.firstChild);
-		
-		if(images.children.length > 10 ) {
-			images.removeChild(images.lastChild);
-		}
-
+		var image = document.querySelector('#images img');
+		alert(ev.data)
+		image.src = ev.data;
 	}
 </script>
 <style>
@@ -46,13 +30,12 @@
 <body>
 	<header style="text-align: center;">
 		<div>
-			<img class="logoEdgeX" src="EdgeX.png">
-		</div>
-		<div>
 			<img class="logoRedis" src="Redis.png"> 
 			<img class="logoRedis" src="Redis-Labs.png">
 		</div>
 	</header>
-	<div id="images" style="text-align: center;"></div>
+	<div id="images" style="text-align: center;">
+		<img src="">
+	</div>
 </body>
 </html>
