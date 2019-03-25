@@ -3,11 +3,15 @@ express = require('express'),
 bodyParser = require('body-parser'),
 WebSocket = require('ws'),
 redis = require('redis'),
-redisClient = redis.createClient({password:"foobared"}),
+redisPort = process.env.REDIS_PORT || 6379,
+redisHost = process.env.REDIS_HOST || 'localhost',
+reidsPassword = process.env.REDIS_PASSWORD || null,
+redisClient = redis.createClient({port:redisPort, host: redisHost, password: reidsPassword}),
 WebSocketServer = WebSocket.Server,
 app = express(),
-server = http.createServer(app);
-port = process.env.PORT || 3000;
+server = http.createServer(app),
+port = process.env.PORT || 3000,
+streamName = process.env.STREAM || 'camera:0:yolo';
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -23,18 +27,18 @@ app.post('/image', function (req, res) {
 
 
 var readStream = function(){
-redisClient.xread('Block', 10000000, 'STREAMS', 'camera:0:yolo', '$',  function (err, stream) {
-	readStream();
-	if(err){
-		return console.error(err);	
-	}
-	var image = stream[0][1][0][1][1];
-	wss.clients.forEach(function each(client) {
-        	if (client.readyState === WebSocket.OPEN) {
-        		client.send(image);
-	        }
-        });
-});
+	redisClient.xread('Block', 10000000, 'STREAMS', streamName, '$',  function (err, stream) {
+		readStream();
+		if(err){
+			return console.error(err);	
+		}
+		var image = stream[0][1][0][1][1];
+		wss.clients.forEach(function each(client) {
+        		if (client.readyState === WebSocket.OPEN) {
+        			client.send(image);
+		        }
+	        });
+	});
 };
 
 readStream();
